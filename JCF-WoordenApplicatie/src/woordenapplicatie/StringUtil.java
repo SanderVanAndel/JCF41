@@ -7,10 +7,6 @@ import java.util.*;
  */
 public class StringUtil {
 
-    private HashSet<String> uniqueWordsHash;
-    private TreeSet<String> uniqueWordsTree;
-    private int amountOfWords = 0;
-
     public StringUtil() {
     }
 
@@ -22,14 +18,15 @@ public class StringUtil {
      * @return string for the output textarea
      */
     public String amount(String input){
-        amountOfWords = 0;
+        HashSet<String> uniqueWordsHash;
+        int amountOfWords = 0;
         //to keep track of the unique words I use a hashset
         //in a hashset duplicate entries are not allowed and the order does not matter
         //Also the collections doesn't have to be sorted
         uniqueWordsHash = new HashSet<>();
         for(String s : getWordsFromString(input)){
-            uniqueWordsHash.add(s);
-            amountOfWords++;
+                uniqueWordsHash.add(s);
+                amountOfWords++;
         }
         return "Amount of words: " + amountOfWords + "\nAmount of unique words: " + uniqueWordsHash.size();
     }
@@ -42,6 +39,7 @@ public class StringUtil {
      * @return string for the output textarea
      */
     public String sort(String input){
+        TreeSet<String> uniqueWordsTree;
         //To keep track of the unique words and be able to sort them later i use a TreeSet
         uniqueWordsTree = new TreeSet<>(REVERSE_ALPHABETICAL_ORDER);
         uniqueWordsTree.addAll(getWordsFromString(input));
@@ -55,9 +53,34 @@ public class StringUtil {
      * @return string for the output textarea
      */
     public String concordance(String input){
-
-        String output = "";
+        HashMap<String, List<Integer>> uniqueWords = new HashMap<>();
+        for(String s : getWordsFromString(input)){
+            List<Integer> lineNumbers = new LinkedList<>();
+            uniqueWords.put(s, lineNumbers);
+        }
+        uniqueWords = addLineNumbers(uniqueWords, input);
+        String output = uniqueWords.toString();
         return output;
+    }
+
+    public HashMap<String, List<Integer>> addLineNumbers(HashMap<String, List<Integer>> uniqueWords, String input){
+        String[] arrayInput = input.split("[.\\n]");
+        int lineIndex = 1;
+        for(String line: arrayInput){
+            String[] wordsInLine = line.split("[,\\s]");
+            for(String s : wordsInLine){
+                if(!s.isEmpty()){
+                    List<Integer> numbers = uniqueWords.get(s);
+                    if(!numbers.contains(lineIndex)){
+                        numbers.add(lineIndex);
+                    }
+                    uniqueWords.put(s , numbers);
+                }
+            }
+            lineIndex++;
+        }
+
+        return uniqueWords;
     }
 
     /**
@@ -116,7 +139,7 @@ public class StringUtil {
      * @param input
      * @return
      */
-    private static Queue<String> getWordsFromString(String input){
+    private static Queue<String> getWordzFromString(String input){
         long startTime = System.nanoTime();
         Queue<String> words = new LinkedList<>();
         input = input.substring(0, input.length() - 1);
@@ -133,9 +156,9 @@ public class StringUtil {
             }
             String word = "";
             while(sentence.contains(" ")){
-                word = sentence.substring(0, sentence.indexOf(" "));
-                sentence = sentence.substring(word.length() + 1, sentence.length());
-                words.add(word);
+                    word = sentence.substring(0, sentence.indexOf(" "));
+                    sentence = sentence.substring(word.length() + 1, sentence.length());
+                    words.add(word);
             }
             words.add(sentence);
             if(finished){
@@ -149,4 +172,25 @@ public class StringUtil {
         return words;
     }
 
+    /**
+     *
+     * @param input
+     * @return
+     */
+    private static Queue<String> getWordsFromString(String input){
+        long startTime = System.nanoTime();
+        Queue<String> words = new LinkedList<>();
+
+        String[] arrayInput = input.split("[,.\\s\\n]");
+        for(String s : arrayInput){
+            if(!s.isEmpty()){
+                words.add(s);
+            }
+        }
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / 1000000;  // milliseconds.
+        System.out.println("Method 'getWordsFromString: " + duration + "ms");
+
+        return words;
+    }
 }

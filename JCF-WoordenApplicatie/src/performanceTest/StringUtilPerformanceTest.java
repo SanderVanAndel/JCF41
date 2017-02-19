@@ -114,7 +114,40 @@ public class StringUtilPerformanceTest {
 
     @Test
     public void concordance() throws Exception {
+        //Test method amount with 10 words
+        long startTime = System.nanoTime();
+        String output = su.concordance(testTenWordsString);
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / 1000000;  // milliseconds.
+        System.out.println("Method 'concordance' with 10 words: " + duration + " milliseconds");
 
+        //Test method amount with 100 words
+        startTime = System.nanoTime();
+        output = su.concordance(testHundredWordsString);
+        endTime = System.nanoTime();
+        duration = (endTime - startTime) / 1000000;  // milliseconds.
+        System.out.println("Method 'concordance' with 100 words: " + duration + " milliseconds");
+
+        //Test method amount with 1000 words
+        startTime = System.nanoTime();
+        output = su.concordance(testThousandWordsString);
+        endTime = System.nanoTime();
+        duration = (endTime - startTime) / 1000000;  // milliseconds.
+        System.out.println("Method 'concordance' with 1000 words: " + duration + " milliseconds");
+
+        //Test method amount with 10000 words
+        startTime = System.nanoTime();
+        output = su.concordance(testTenThousandWordsString);
+        endTime = System.nanoTime();
+        duration = (endTime - startTime) / 1000000;  // milliseconds.
+        System.out.println("Method 'concordance' with 10000 words: " + duration + " milliseconds");
+
+        //Test method amount with 10000 words
+        startTime = System.nanoTime();
+        output = su.concordance(testHundredThousandWordsString);
+        endTime = System.nanoTime();
+        duration = (endTime - startTime) / 1000000;  // milliseconds.
+        System.out.println("Method 'concordance' with 100000 words: " + duration + " milliseconds");
     }
 
     @Test
@@ -141,11 +174,16 @@ public class StringUtilPerformanceTest {
 
         for (int i=0; i < amountofWords - 1; i++){
             String nextSentence = " ";
+            String nextLine = "";
             Boolean endOfSentence = rand.nextBoolean();
+            Boolean endOfLine = rand.nextBoolean();
             if(endOfSentence){
-            nextSentence = ", ";
+                nextSentence = ", ";
             }
-            input = input + generateString(rand, rand.nextInt(10) + 2) + nextSentence;
+            else if(endOfLine){
+                nextLine  = "\n";
+            }
+            input = input + generateString(rand, rand.nextInt(10) + 2) + nextSentence + nextLine ;
         }
         input = input + generateString(new Random(), rand.nextInt(10) + 2);
         return input;

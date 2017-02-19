@@ -21,7 +21,7 @@ public class MainFrameController implements Initializable{
         txtInput.setWrapText(true);
 
         su = new StringUtil();
-        txtInput.setText("een, twee, drie, vier, hoedje van, hoedje van, een, twee, drie, vier, hoedje van papier.");
+        txtInput.setText("een, twee, drie, vier,\nhoedje van, hoedje van,\neen, twee, drie, vier,\nhoedje van papier.");
     }
 
     @FXML

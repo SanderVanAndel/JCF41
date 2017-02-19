@@ -11,7 +11,7 @@ import woordenapplicatie.StringUtil;
  */
 public class StringUtilTest {
     private StringUtil su;
-    private String testText = "een, twee, drie, vier, hoedje van, hoedje van, een, twee, drie, vier, hoedje van papier";
+    private String testText = "een, twee, drie, vier,\nhoedje van, hoedje van,\neen, twee, drie, vier,\nhoedje van papier.";
 
     @Before
     public void setUp() throws Exception {
