@@ -1,4 +1,4 @@
-package sample;
+package woordenapplicatie;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

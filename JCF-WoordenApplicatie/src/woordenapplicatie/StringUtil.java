@@ -1,4 +1,4 @@
-package sample;
+package woordenapplicatie;
 
 import java.util.HashSet;
 
