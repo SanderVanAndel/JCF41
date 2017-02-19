@@ -11,7 +11,7 @@ import woordenapplicatie.StringUtil;
  */
 public class StringUtilTest {
     private StringUtil su;
-    private String testText = "een, twee, drie, vier, hoedje van, hoedje van, een, twee, drie, vier, hoedje van papier.";
+    private String testText = "een, twee, drie, vier, hoedje van, hoedje van, een, twee, drie, vier, hoedje van papier";
 
     @Before
     public void setUp() throws Exception {
@@ -26,12 +26,13 @@ public class StringUtilTest {
     @Test
     public void amount() throws Exception {
         String result = su.amount(testText);
-        assertEquals(result, "Amount of words: 15\nAmount of unique words: 7");
+        assertEquals("Amount of words: 15\nAmount of unique words: 7", result);
     }
 
     @Test
     public void sort() throws Exception {
-
+        String result = su.sort(testText);
+        assertEquals("[vier, van, twee, papier, hoedje, een, drie]", result);
     }
 
     @Test
@@ -39,9 +40,11 @@ public class StringUtilTest {
 
     }
 
+
     @Test
     public void frequence() throws Exception {
-
+        String result = su.frequence(testText);
+        assertEquals("{drie=2, een=2, hoedje=3, papier=1, twee=2, van=3, vier=2}", result);
     }
 
     @Test

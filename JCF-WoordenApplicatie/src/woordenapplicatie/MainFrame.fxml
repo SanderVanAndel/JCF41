@@ -24,9 +24,9 @@
             <Pane layoutX="14.0" layoutY="32.0" prefHeight="212.0" prefWidth="583.0">
                <children>
                   <Button fx:id="btnAmount" layoutX="374.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="167.0" text="Amount" onMouseClicked="#btnAmountClicked"/>
-                  <Button fx:id="btnSort" layoutX="374.0" layoutY="61.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="167.0" text="Sort" onMouseClicked="#btnConcordanceClicked"/>
+                  <Button fx:id="btnSort" layoutX="374.0" layoutY="61.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="167.0" text="Sort" onMouseClicked="#btnSortClicked"/>
                   <Button fx:id="btnFrequence" layoutX="374.0" layoutY="106.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="167.0" text="Frequence" onMouseClicked="#btnFrequenceClicked"/>
-                  <Button fx:id="btnConcordance" layoutX="374.0" layoutY="157.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="167.0" text="Concordance" onMouseClicked="#btnSortClicked"/>
+                  <Button fx:id="btnConcordance" layoutX="374.0" layoutY="157.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="167.0" text="Concordance" onMouseClicked="#btnConcordanceClicked"/>
                   <TextArea fx:id="txtInput" layoutX="14.0" layoutY="11.0" prefHeight="187.0" prefWidth="341.0" promptText="Input" />
                </children>
             </Pane>
