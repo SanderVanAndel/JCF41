@@ -53,12 +53,14 @@ public class StringUtil {
      * @return string for the output textarea
      */
     public String concordance(String input){
-        HashMap<String, List<Integer>> uniqueWords = new HashMap<>();
+        HashMap<String, List<Integer>> uniqueWords = new HashMap<>() ;
         for(String s : getWordsFromString(input)){
             List<Integer> lineNumbers = new LinkedList<>();
             uniqueWords.put(s, lineNumbers);
         }
         uniqueWords = addLineNumbers(uniqueWords, input);
+
+        //Collections.sort(uniqueWords, ALPHABETICAL_ORDER);
         String output = uniqueWords.toString();
         return output;
     }
@@ -79,7 +81,6 @@ public class StringUtil {
             }
             lineIndex++;
         }
-
         return uniqueWords;
     }
 
@@ -89,8 +90,7 @@ public class StringUtil {
      * @return string for the output textarea
      */
     public String frequence(String input){
-        TreeMap<String, Integer> tm = new TreeMap<>();
-        ValueComparator valueComparator =  new ValueComparator(tm);
+        TreeMap<String, Integer> tm = new TreeMap<String, Integer>();
 
         for(String s : getWordsFromString(input)){
             if(tm.containsKey(s)){
@@ -100,7 +100,14 @@ public class StringUtil {
                 tm.put(s, 1);
             }
         }
-        return tm.toString();
+
+        LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
+        TreeMap<String, Integer> sortedTreeMap = new TreeMap<String, Integer>();
+        for (Map.Entry<String, Integer> entry  : entriesSortedByValues(tm)) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+
+        return sortedMap.toString();
     }
 
     private static Comparator<String> REVERSE_ALPHABETICAL_ORDER = new Comparator<String>() {
@@ -113,23 +120,28 @@ public class StringUtil {
         }
     };
 
-    class ValueComparator implements Comparator<String> {
-        Map<String, Integer> base;
-        public ValueComparator(Map<String, Integer> base) {
-            this.base = base;
-        }
-        public int compare(String a, String b) {
-            if (base.get(a) >= base.get(b)) {
-                return -1;
-            }
-            else if(base.get(a) <= base.get(b)){
-                return 1;
-            }
-            else {
-                return 0;
-            }
-        }
+    private static <K,V extends Comparable<? super V>>
+    SortedSet<Map.Entry<K,V>> entriesSortedByValues(Map<K,V> map) {
+        SortedSet<Map.Entry<K,V>> sortedEntries = new TreeSet<Map.Entry<K,V>>(
+                new Comparator<Map.Entry<K,V>>() {
+                    @Override public int compare(Map.Entry<K,V> e1, Map.Entry<K,V> e2) {
+                        int res = e1.getValue().compareTo(e2.getValue());
+                        return res != 0 ? res : 1;
+                    }
+                }
+        );
+        sortedEntries.addAll(map.entrySet());
+        return sortedEntries;
     }
+
+    private static Comparator<Map.Entry<String, List<Integer>>> ALPHABETICAL_ORDER_NEUS = new Comparator<Map.Entry<String, List<Integer>>>() {
+        @Override
+        public int compare(Map.Entry<String, List<Integer>> o1, Map.Entry<String, List<Integer>> o2) {
+            String v1 = o1.getKey();
+            String v2 = o2.getKey();
+            return v1.compareTo(v2);
+        }
+    };
     /**
      * Queue: An interface that represents a Collection where elements are, typically,
      * added to one end, and removed from the other (FIFO: first-in, first-out).
@@ -167,7 +179,7 @@ public class StringUtil {
         }
         long endTime = System.nanoTime();
         long duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'getWordsFromString: " + duration + "ms");
+
 
         return words;
     }
@@ -189,7 +201,6 @@ public class StringUtil {
         }
         long endTime = System.nanoTime();
         long duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'getWordsFromString: " + duration + "ms");
 
         return words;
     }
