@@ -19,6 +19,7 @@ public class MainFrameController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         txtInput.setWrapText(true);
+        txtOutput.setWrapText(true);
 
         su = new StringUtil();
         txtInput.setText("een, twee, drie, vier,\nhoedje van, hoedje van,\neen, twee, drie, vier,\nhoedje van papier.");

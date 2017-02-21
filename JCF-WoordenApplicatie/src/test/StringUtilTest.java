@@ -37,14 +37,15 @@ public class StringUtilTest {
 
     @Test
     public void concordance() throws Exception {
-
+        String result = su.concordance(testText);
+        assertEquals("{hoedje=[2, 4], van=[2, 4], twee=[1, 3], drie=[1, 3], vier=[1, 3], papier=[4], een=[1, 3]}", result);
     }
 
 
     @Test
     public void frequence() throws Exception {
         String result = su.frequence(testText);
-        assertEquals("{drie=2, een=2, hoedje=3, papier=1, twee=2, van=3, vier=2}", result);
+        assertEquals("{papier=1, drie=2, een=2, twee=2, vier=2, hoedje=3, van=3}", result);
     }
 
     @Test

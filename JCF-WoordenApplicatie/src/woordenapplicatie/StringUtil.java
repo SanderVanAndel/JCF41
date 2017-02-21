@@ -13,6 +13,9 @@ public class StringUtil {
     /**
      * Find the total amount of words in the string
      * Find the amount of unique words input the string
+     * to keep track of the unique words I use a Hashset
+     * in a hashset duplicate entries are not allowed and the order does not matter
+     * Also the collections doesn't have to be sorted
      *
      * @param input text from the input field
      * @return string for the output textarea
@@ -20,9 +23,6 @@ public class StringUtil {
     public String amount(String input){
         HashSet<String> uniqueWordsHash;
         int amountOfWords = 0;
-        //to keep track of the unique words I use a hashset
-        //in a hashset duplicate entries are not allowed and the order does not matter
-        //Also the collections doesn't have to be sorted
         uniqueWordsHash = new HashSet<>();
         for(String s : getWordsFromString(input)){
                 uniqueWordsHash.add(s);
@@ -65,11 +65,18 @@ public class StringUtil {
         return output;
     }
 
+    /**
+     * Adds line numbers to the list of integers per string
+     *
+     * @param uniqueWords HashMap<String, List<Integer>>
+     * @param input raw input
+     * @return List of the words with the line index added to the List<Integer>
+     */
     public HashMap<String, List<Integer>> addLineNumbers(HashMap<String, List<Integer>> uniqueWords, String input){
-        String[] arrayInput = input.split("[.\\n]");
+        String[] arrayInput = input.split("[.\\n]");    //O(N)
         int lineIndex = 1;
         for(String line: arrayInput){
-            String[] wordsInLine = line.split("[,\\s]");
+            String[] wordsInLine = line.split("[,\\s]");    //O(N)
             for(String s : wordsInLine){
                 if(!s.isEmpty()){
                     List<Integer> numbers = uniqueWords.get(s);
@@ -100,9 +107,7 @@ public class StringUtil {
                 tm.put(s, 1);
             }
         }
-
         LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
-        TreeMap<String, Integer> sortedTreeMap = new TreeMap<String, Integer>();
         for (Map.Entry<String, Integer> entry  : entriesSortedByValues(tm)) {
             sortedMap.put(entry.getKey(), entry.getValue());
         }
@@ -110,6 +115,9 @@ public class StringUtil {
         return sortedMap.toString();
     }
 
+    /**
+     * Comparator for reverse alphabetical order
+     */
     private static Comparator<String> REVERSE_ALPHABETICAL_ORDER = new Comparator<String>() {
         public int compare(String str1, String str2) {
             int res = String.CASE_INSENSITIVE_ORDER.compare(str2, str1);
@@ -120,6 +128,13 @@ public class StringUtil {
         }
     };
 
+    /**
+     *
+     * @param map
+     * @param <K> word
+     * @param <V> Integer
+     * @return Map sorted by value
+     */
     private static <K,V extends Comparable<? super V>>
     SortedSet<Map.Entry<K,V>> entriesSortedByValues(Map<K,V> map) {
         SortedSet<Map.Entry<K,V>> sortedEntries = new TreeSet<Map.Entry<K,V>>(
@@ -134,14 +149,6 @@ public class StringUtil {
         return sortedEntries;
     }
 
-    private static Comparator<Map.Entry<String, List<Integer>>> ALPHABETICAL_ORDER_NEUS = new Comparator<Map.Entry<String, List<Integer>>>() {
-        @Override
-        public int compare(Map.Entry<String, List<Integer>> o1, Map.Entry<String, List<Integer>> o2) {
-            String v1 = o1.getKey();
-            String v2 = o2.getKey();
-            return v1.compareTo(v2);
-        }
-    };
     /**
      * Queue: An interface that represents a Collection where elements are, typically,
      * added to one end, and removed from the other (FIFO: first-in, first-out).
@@ -186,6 +193,7 @@ public class StringUtil {
 
     /**
      *
+     *
      * @param input
      * @return
      */
@@ -193,7 +201,7 @@ public class StringUtil {
         long startTime = System.nanoTime();
         Queue<String> words = new LinkedList<>();
 
-        String[] arrayInput = input.split("[,.\\s\\n]");
+        String[] arrayInput = input.split("[,.\\s\\n]");    //O(N)
         for(String s : arrayInput){
             if(!s.isEmpty()){
                 words.add(s);

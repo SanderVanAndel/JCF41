@@ -14,220 +14,71 @@ import static org.junit.Assert.*;
  */
 public class StringUtilPerformanceTest {
     private static StringUtil su;
-    private static String testTenWordsString;
-    private static String testHundredWordsString;
-    private static String testThousandWordsString;
-    private static String testTenThousandWordsString;
-    private static String testHundredThousandWordsString;
-    private static String testMillionWordsString;
+    private static String[] testWords;
+    private static String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private long startTime;
+    private long endTime;
+    private long duration;
 
 
     @BeforeClass
     public static void setUpClass() throws Exception {
         su = new StringUtil();
-        System.out.println("Generating test words");
-        long startTime = System.nanoTime();
-        testTenWordsString = generateInput(10);
-        testHundredWordsString = generateInput(100);
-        testThousandWordsString = generateInput(1000);
-        testTenThousandWordsString = generateInput(10000);
-        testHundredThousandWordsString = generateInput(100000);
-        testMillionWordsString = generateInput(1000000);
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Done generating test words, time elapsed: " + duration / 1000 + " seconds");
+        testWords = new String[]{generateInput(10), generateInput(100), generateInput(1000),
+                generateInput(10000), generateInput(100000), generateInput(1000000)};
     }
 
     @Test
     public void amount() throws Exception {
-        //Test method amount with 10 words
-        long startTime = System.nanoTime();
-        String output = su.amount(testTenWordsString);
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'amount' with 10 words: " + duration + " milliseconds");
-
-        //Test method amount with 100 words
-        startTime = System.nanoTime();
-        output = su.amount(testHundredWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'amount' with 100 words: " + duration + " milliseconds");
-
-        //Test method amount with 1000 words
-        startTime = System.nanoTime();
-        output = su.amount(testThousandWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'amount' with 1000 words: " + duration + " milliseconds");
-
-        //Test method amount with 10000 words
-        startTime = System.nanoTime();
-        output = su.amount(testTenThousandWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'amount' with 10000 words: " + duration + " milliseconds");
-
-        //Test method amount with 100000 words
-        startTime = System.nanoTime();
-        output = su.amount(testHundredThousandWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'amount' with 100000 words: " + duration + " milliseconds");
-
-        //Test method amount with 100000 words
-        startTime = System.nanoTime();
-        output = su.amount(testMillionWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'amount' with 1000000 words: " + duration + " milliseconds");
+        for (int i = 0; i < 6; i++) {
+            startTime = System.nanoTime();
+            su.amount(testWords[i]);
+            endTime = System.nanoTime();
+            duration = (endTime - startTime) / 1000000;  // milliseconds.
+            System.out.println("Method 'amount' with 10 words: " + duration + " milliseconds");
+        }
     }
 
     @Test
     public void sort() throws Exception {
-        //Test method amount with 10 words
-        long startTime = System.nanoTime();
-        String output = su.sort(testTenWordsString);
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'sort' with 10 words: " + duration + " milliseconds");
-
-        //Test method amount with 100 words
-        startTime = System.nanoTime();
-        output = su.sort(testHundredWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'sort' with 100 words: " + duration + " milliseconds");
-
-        //Test method amount with 1000 words
-        startTime = System.nanoTime();
-        output = su.sort(testThousandWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'sort' with 1000 words: " + duration + " milliseconds");
-
-        //Test method amount with 10000 words
-        startTime = System.nanoTime();
-        output = su.sort(testTenThousandWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'sort' with 10000 words: " + duration + " milliseconds");
-
-        //Test method amount with 10000 words
-        startTime = System.nanoTime();
-        output = su.sort(testHundredThousandWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'sort' with 100000 words: " + duration + " milliseconds");
-
-        //Test method amount with 10000 words
-        startTime = System.nanoTime();
-        output = su.sort(testMillionWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'sort' with 1000000 words: " + duration + " milliseconds");
+        for (int i = 0; i < 6; i++) {
+            startTime = System.nanoTime();
+            su.sort(testWords[i]);
+            endTime = System.nanoTime();
+            duration = (endTime - startTime) / 1000000;  // milliseconds.
+            System.out.println("Method 'sort' with " + i + " words: " + duration + " milliseconds");
+        }
     }
 
     @Test
     public void concordance() throws Exception {
-        //Test method amount with 10 words
-        long startTime = System.nanoTime();
-        String output = su.concordance(testTenWordsString);
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'concordance' with 10 words: " + duration + " milliseconds");
-
-        //Test method amount with 100 words
-        startTime = System.nanoTime();
-        output = su.concordance(testHundredWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'concordance' with 100 words: " + duration + " milliseconds");
-
-        //Test method amount with 1000 words
-        startTime = System.nanoTime();
-        output = su.concordance(testThousandWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'concordance' with 1000 words: " + duration + " milliseconds");
-
-        //Test method amount with 10000 words
-        startTime = System.nanoTime();
-        output = su.concordance(testTenThousandWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'concordance' with 10000 words: " + duration + " milliseconds");
-
-        //Test method amount with 10000 words
-        startTime = System.nanoTime();
-        output = su.concordance(testHundredThousandWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'concordance' with 100000 words: " + duration + " milliseconds");
-
-        //Test method amount with 10000 words
-        startTime = System.nanoTime();
-        output = su.concordance(testMillionWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'concordance' with 1000000 words: " + duration + " milliseconds");
+        for (int i = 0; i < 6; i++) {
+            startTime = System.nanoTime();
+            su.concordance(testWords[i]);
+            endTime = System.nanoTime();
+            duration = (endTime - startTime) / 1000000;  // milliseconds.
+            System.out.println("Method 'concordance' with " + i + " words: " + duration + " milliseconds");
+        }
     }
 
     @Test
     public void frequence() throws Exception {
-        //Test method amount with 10 words
-        long startTime = System.nanoTime();
-        String output = su.frequence(testTenWordsString);
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'frequence' with 10 words: " + duration + " milliseconds");
-
-        //Test method amount with 100 words
-        startTime = System.nanoTime();
-        output = su.frequence(testHundredWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'frequence' with 100 words: " + duration + " milliseconds");
-
-        //Test method amount with 1000 words
-        startTime = System.nanoTime();
-        output = su.frequence(testThousandWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'frequence' with 1000 words: " + duration + " milliseconds");
-
-        //Test method amount with 10000 words
-        startTime = System.nanoTime();
-        output = su.frequence(testTenThousandWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'frequence' with 10000 words: " + duration + " milliseconds");
-
-        //Test method amount with 10000 words
-        startTime = System.nanoTime();
-        output = su.frequence(testHundredThousandWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'frequence' with 100000 words: " + duration + " milliseconds");
-
-        //Test method amount with 10000 words
-        startTime = System.nanoTime();
-        output = su.frequence(testMillionWordsString);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  // milliseconds.
-        System.out.println("Method 'frequence' with 1000000 words: " + duration + " milliseconds");
+        for (int i = 0; i < 6; i++) {
+            startTime = System.nanoTime();
+            su.frequence(testWords[i]);
+            endTime = System.nanoTime();
+            duration = (endTime - startTime) / 1000000;  // milliseconds.
+            System.out.println("Method 'frequence' with " + 1 + " words: " + duration + " milliseconds");
+        }
     }
 
-    public static String generateString(Random rng, int length)
-    {
-        String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    char[] text = new char[length];
-        for (int i = 0; i < length; i++)
-    {
+    public static String generateString(Random rng, int length){
+        char[] text = new char[length];
+        for (int i = 0; i < length; i++) {
         text[i] = characters.charAt(rng.nextInt(characters.length()));
-    }
+        }
         return new String(text);
-}
+    }
 
 
 
