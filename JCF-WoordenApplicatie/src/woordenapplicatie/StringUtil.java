@@ -13,93 +13,102 @@ public class StringUtil {
     /**
      * Find the total amount of words in the string
      * Find the amount of unique words input the string
-     * to keep track of the unique words I use a Hashset
-     * in a hashset duplicate entries are not allowed and the order does not matter
+     * to keep track of the unique words I use a HashSet
+     * in a HashSet duplicate entries are not allowed and the order does not matter
      * Also the collections doesn't have to be sorted
      *
+     * Complexity: for loop O(n) + getWordsFromString O(n) = O(2n)
+     *
      * @param input text from the input field
-     * @return string for the output textarea
+     * @return int array where [0] = the amount of words
+     * and [1] = the amount of unique words
      */
-    public String amount(String input){
+    public int[] amount(String input){
         HashSet<String> uniqueWordsHash;
         int amountOfWords = 0;
         uniqueWordsHash = new HashSet<>();
-        for(String s : getWordsFromString(input)){
+        for(String s : getWordsFromString(input)){  //O(n)+ O(n) (getWordsFromString)
                 uniqueWordsHash.add(s);
                 amountOfWords++;
         }
-        return "Amount of words: " + amountOfWords + "\nAmount of unique words: " + uniqueWordsHash.size();
+        return new int[] {amountOfWords, uniqueWordsHash.size()};
     }
 
     /**
-     * Order the unique words in reverse alphabetical order
+     * Orders the unique words in reverse alphabetical order
+     *
      *
      *
      * @param input text from the input field
      * @return string for the output textarea
      */
-    public String sort(String input){
+    public TreeSet sort(String input){
         TreeSet<String> uniqueWordsTree;
-        //To keep track of the unique words and be able to sort them later i use a TreeSet
-        uniqueWordsTree = new TreeSet<>(REVERSE_ALPHABETICAL_ORDER);
-        uniqueWordsTree.addAll(getWordsFromString(input));
-        String s = uniqueWordsTree.toString();
-        return s;
+        uniqueWordsTree = new TreeSet<>(Comparator.reverseOrder());
+        uniqueWordsTree.addAll(getWordsFromString(input));  //O(log n)
+        return uniqueWordsTree;
     }
 
     /**
+     * Method that makes a hashmap of words with a list of line numbers they appear in.
+     *
+     * Complexity: O(n) + ?
      *
      * @param input text from the input field
      * @return string for the output textarea
      */
-    public String concordance(String input){
+    public HashMap concordance(String input){
         HashMap<String, List<Integer>> uniqueWords = new HashMap<>() ;
-        for(String s : getWordsFromString(input)){
+        for(String s : getWordsFromString(input)){  //O(n)
             List<Integer> lineNumbers = new LinkedList<>();
             uniqueWords.put(s, lineNumbers);
         }
         uniqueWords = addLineNumbers(uniqueWords, input);
-
-        //Collections.sort(uniqueWords, ALPHABETICAL_ORDER);
-        String output = uniqueWords.toString();
-        return output;
+        return uniqueWords;
     }
 
     /**
      * Adds line numbers to the list of integers per string
+     * Loops through all the words in the text
+     * Loops per word through the words in the line (before \N)
+     * adds the line number (lineIndex) to the list of line numbers if the word is in the line
+     *
+     * Complexity: 2x regex string split O(2N) + 2 for loops O(N^2)??????
      *
      * @param uniqueWords HashMap<String, List<Integer>>
      * @param input raw input
      * @return List of the words with the line index added to the List<Integer>
      */
     public HashMap<String, List<Integer>> addLineNumbers(HashMap<String, List<Integer>> uniqueWords, String input){
-        String[] arrayInput = input.split("[.\\n]");    //O(N)
-        int lineIndex = 1;
-        for(String line: arrayInput){
-            String[] wordsInLine = line.split("[,\\s]");    //O(N)
-            for(String s : wordsInLine){
-                if(!s.isEmpty()){
-                    List<Integer> numbers = uniqueWords.get(s);
-                    if(!numbers.contains(lineIndex)){
-                        numbers.add(lineIndex);
+            String[] arrayInput = input.split("[.\\n]");    //O(N)
+            int lineIndex = 1;
+            for(String line: arrayInput){
+                String[] wordsInLine = line.split("[,\\s]");    //O(N)
+                for(String s : wordsInLine){
+                    if(!s.isEmpty()){
+                        List<Integer> numbers = uniqueWords.get(s);
+                        if(!numbers.contains(lineIndex)){
+                            numbers.add(lineIndex);
+                        }
+                        uniqueWords.put(s , numbers);
                     }
-                    uniqueWords.put(s , numbers);
                 }
+                lineIndex++;
             }
-            lineIndex++;
-        }
         return uniqueWords;
     }
 
     /**
+     * Method that sorts the string by amount of times they appear
+     * Complexity: veel
      *
      * @param input text from the input field
      * @return string for the output textarea
      */
-    public String frequence(String input){
+    public LinkedHashMap frequence(String input){
         TreeMap<String, Integer> tm = new TreeMap<String, Integer>();
 
-        for(String s : getWordsFromString(input)){
+        for(String s : getWordsFromString(input)){  //O(n)
             if(tm.containsKey(s)){
                 tm.put(s, tm.get(s) + 1);
             }
@@ -108,25 +117,12 @@ public class StringUtil {
             }
         }
         LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
-        for (Map.Entry<String, Integer> entry  : entriesSortedByValues(tm)) {
+        for (Map.Entry<String, Integer> entry  : entriesSortedByValues(tm)) { //O(n)
             sortedMap.put(entry.getKey(), entry.getValue());
         }
 
-        return sortedMap.toString();
+        return sortedMap;
     }
-
-    /**
-     * Comparator for reverse alphabetical order
-     */
-    private static Comparator<String> REVERSE_ALPHABETICAL_ORDER = new Comparator<String>() {
-        public int compare(String str1, String str2) {
-            int res = String.CASE_INSENSITIVE_ORDER.compare(str2, str1);
-            if (res == 0) {
-                res = str1.compareTo(str2);
-            }
-            return res;
-        }
-    };
 
     /**
      *
@@ -150,66 +146,22 @@ public class StringUtil {
     }
 
     /**
-     * Queue: An interface that represents a Collection where elements are, typically,
-     * added to one end, and removed from the other (FIFO: first-in, first-out).
+     * Method that returns the words in the input string in a Queue
+     * splits string on space, comma, newline, dot
      *
-     * achterlijk langzame methode
-     *
-     * @param input
-     * @return
-     */
-    private static Queue<String> getWordzFromString(String input){
-        long startTime = System.nanoTime();
-        Queue<String> words = new LinkedList<>();
-        input = input.substring(0, input.length() - 1);
-        boolean finished = false;
-        while(!input.equals("")){
-            String sentence = "";
-            if(input.contains(",")){
-                sentence = input.substring(0, input.indexOf(','));
-                input = input.substring(sentence.length() + 2);
-            }
-            else{
-                finished = true;
-                sentence = input;
-            }
-            String word = "";
-            while(sentence.contains(" ")){
-                    word = sentence.substring(0, sentence.indexOf(" "));
-                    sentence = sentence.substring(word.length() + 1, sentence.length());
-                    words.add(word);
-            }
-            words.add(sentence);
-            if(finished){
-                input = "";
-            }
-        }
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime) / 1000000;  // milliseconds.
-
-
-        return words;
-    }
-
-    /**
-     *
+     * Complexity: splitting the string with regex costs O(N) time
      *
      * @param input
      * @return
      */
     private static Queue<String> getWordsFromString(String input){
-        long startTime = System.nanoTime();
         Queue<String> words = new LinkedList<>();
-
         String[] arrayInput = input.split("[,.\\s\\n]");    //O(N)
         for(String s : arrayInput){
             if(!s.isEmpty()){
-                words.add(s);
+                words.add(s); //O(1)
             }
         }
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime) / 1000000;  // milliseconds.
-
         return words;
     }
 }

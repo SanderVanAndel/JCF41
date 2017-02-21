@@ -36,7 +36,7 @@ public class StringUtilPerformanceTest {
 
     /**
      * Test method for method amount of class StringUtil
-     * Tests amount 6 times, with parameter input 10, 100, 1.000, 10.000, 100.000 and 1.000.000
+     * Tests amount 6 times, with parameter input 10, 100, 1.000, 10.000, 100.000, 1.000.000, 5.000.000, 10.000.000
      * Prints execute time in milliseconds.
      *
      * @throws Exception
@@ -55,7 +55,7 @@ public class StringUtilPerformanceTest {
 
     /**
      * Test method for method sort of class StringUtil
-     * Tests sort 6 times, with parameter input 10, 100, 1.000, 10.000, 100.000 and 1.000.000
+     * Tests amount 6 times, with parameter input 10, 100, 1.000, 10.000, 100.000, 1.000.000, 5.000.000, 10.000.000
      * Prints execute time in milliseconds
      *
      * @throws Exception
@@ -74,7 +74,7 @@ public class StringUtilPerformanceTest {
 
     /**
      * Test method for method concordance of class StringUtil
-     * Tests concordance 6 times, with parameter input 10, 100, 1.000, 10.000, 100.000 and 1.000.000
+     * Tests amount 6 times, with parameter input 10, 100, 1.000, 10.000, 100.000, 1.000.000, 5.000.000, 10.000.000
      * Prints execute time in milliseconds
      *
      * @throws Exception
@@ -164,7 +164,6 @@ public class StringUtilPerformanceTest {
             case 6: amount = "5000000"; break;
             case 7: amount = "10000000"; break;
         }
-
         return amount;
     }
 

@@ -11,7 +11,7 @@ import javafx.stage.Stage;
         @Override
         public void start(Stage primaryStage) throws Exception{
             Parent root = FXMLLoader.load(getClass().getResource("MainFrame.fxml"));
-            primaryStage.setTitle("Hello World");
+            primaryStage.setTitle("WoordenApplicatie");
             primaryStage.setScene(new Scene(root, 623, 502));
             primaryStage.show();
         }

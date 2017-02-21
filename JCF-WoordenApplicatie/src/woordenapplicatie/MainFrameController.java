@@ -27,21 +27,23 @@ public class MainFrameController implements Initializable{
 
     @FXML
     private void btnAmountClicked(){
-        txtOutput.setText(su.amount(txtInput.getText()));
+        int result[] = su.amount(txtInput.getText());
+        txtOutput.setText("Amount of words: " + result[0] + "\nAmount of unique words: " + result[1]);
     }
+
 
     @FXML
     private void btnSortClicked(){
-        txtOutput.setText(su.sort(txtInput.getText()));
+        txtOutput.setText(su.sort(txtInput.getText()).toString());
     }
 
     @FXML
     private void btnConcordanceClicked(){
-        txtOutput.setText(su.concordance(txtInput.getText()));
+        txtOutput.setText(su.concordance(txtInput.getText()).toString());
     }
 
     @FXML
     private void btnFrequenceClicked(){
-        txtOutput.setText(su.frequence(txtInput.getText()));
+        txtOutput.setText(su.frequence(txtInput.getText()).toString());
     }
 }
