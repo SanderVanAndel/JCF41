@@ -1,6 +1,7 @@
 package woordenapplicatie;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Sander on 18/02/2017.
@@ -73,7 +74,7 @@ public class StringUtil {
      * Loops per word through the words in the line (before \N)
      * adds the line number (lineIndex) to the list of line numbers if the word is in the line
      *
-     * Complexity: 2x regex string split O(2N) + 2 for loops O(N^2)??????
+     * Complexity: 2x regex string split O(2n) + 2 for loops O(n^2)
      *
      * @param uniqueWords HashMap<String, List<Integer>>
      * @param input raw input
@@ -99,15 +100,15 @@ public class StringUtil {
     }
 
     /**
+     *
      * Method that sorts the string by amount of times they appear
      * Complexity: veel
      *
      * @param input text from the input field
      * @return string for the output textarea
      */
-    public LinkedHashMap frequence(String input){
-        TreeMap<String, Integer> tm = new TreeMap<String, Integer>();
-
+    public LinkedHashMap<String, Integer> frequenceAlternative(String input){
+        TreeMap<String, Integer> tm = new TreeMap<>();
         for(String s : getWordsFromString(input)){  //O(n)
             if(tm.containsKey(s)){
                 tm.put(s, tm.get(s) + 1);
@@ -120,8 +121,40 @@ public class StringUtil {
         for (Map.Entry<String, Integer> entry  : entriesSortedByValues(tm)) { //O(n)
             sortedMap.put(entry.getKey(), entry.getValue());
         }
-
         return sortedMap;
+
+    }
+
+    /**
+     * Method that sorts the string by amount of times they appear
+     * JAVA 8
+     * Complexity: veel
+     *
+     * @param input text from the input field
+     * @return string for the output textarea
+     */
+    public LinkedHashMap<String, Integer> frequence(String input){
+        HashMap<String, Integer> tm = new HashMap<String, Integer>();
+        for(String s : getWordsFromString(input)){  //O(n)
+            if(tm.containsKey(s)){
+                tm.put(s, tm.get(s) + 1);
+            }
+            else{
+                tm.put(s, 1);
+            }
+        }
+
+        LinkedHashMap lhm =
+        tm.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey(Comparator.naturalOrder()))
+                .sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (x,y)-> {throw new AssertionError();},
+                        LinkedHashMap::new
+                ));
+        return lhm;
     }
 
     /**
