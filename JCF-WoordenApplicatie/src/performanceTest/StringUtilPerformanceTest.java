@@ -49,7 +49,7 @@ public class StringUtilPerformanceTest {
             endTime = System.nanoTime();
             duration = (endTime - startTime) / 1000000;  // milliseconds.
 
-            System.out.println("Method 'amount' with " + getAmount(i) + " words: " + duration + " milliseconds");
+            System.out.println("Method 'amount' with " + getAmountString(i) + " words: " + duration + " milliseconds");
         }
     }
 
@@ -68,7 +68,7 @@ public class StringUtilPerformanceTest {
             endTime = System.nanoTime();
             duration = (endTime - startTime) / 1000000;  // milliseconds.
 
-            System.out.println("Method 'sort' with " + getAmount(i) + " words: " + duration + " milliseconds");
+            System.out.println("Method 'sort' with " + getAmountString(i) + " words: " + duration + " milliseconds");
         }
     }
 
@@ -86,7 +86,7 @@ public class StringUtilPerformanceTest {
             su.concordance(testWords[i]);
             endTime = System.nanoTime();
             duration = (endTime - startTime) / 1000000;  // milliseconds.
-            System.out.println("Method 'concordance' with " + getAmount(i) + " words: " + duration + " milliseconds");
+            System.out.println("Method 'concordance' with " + getAmountString(i) + " words: " + duration + " milliseconds");
         }
     }
 
@@ -104,7 +104,7 @@ public class StringUtilPerformanceTest {
             su.frequence(testWords[i]);
             endTime = System.nanoTime();
             duration = (endTime - startTime) / 1000000;  // milliseconds.
-            System.out.println("Method 'frequence' with " + getAmount(i) + " words: " + duration + " milliseconds");
+            System.out.println("Method 'frequence' with " + getAmountString(i) + " words: " + duration + " milliseconds");
         }
     }
 
@@ -152,7 +152,7 @@ public class StringUtilPerformanceTest {
         return sb.toString();
     }
 
-    public String getAmount(int index){
+    public String getAmountString(int index){
         String amount = "";
         switch(index){
             case 0: amount = "10"; break;

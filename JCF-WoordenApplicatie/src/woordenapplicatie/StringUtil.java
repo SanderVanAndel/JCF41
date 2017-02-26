@@ -10,7 +10,6 @@ public class StringUtil {
 
     public StringUtil() {
     }
-
     /**
      * Find the total amount of words in the string
      * Find the amount of unique words input the string
@@ -18,7 +17,7 @@ public class StringUtil {
      * in a HashSet duplicate entries are not allowed and the order does not matter
      * Also the collections doesn't have to be sorted
      *
-     * Complexity: for loop O(n) + getWordsFromString O(n) = O(2n)
+     * Complexity: for loop O(n) + getWordsFromString O(n) = O(2n) = O(n)
      *
      * @param input text from the input field
      * @return int array where [0] = the amount of words
@@ -45,7 +44,7 @@ public class StringUtil {
      */
     public TreeSet sort(String input){
         TreeSet<String> uniqueWordsTree;
-        uniqueWordsTree = new TreeSet<>(Comparator.reverseOrder());
+        uniqueWordsTree = new TreeSet<>(Comparator.reverseOrder()); //O
         uniqueWordsTree.addAll(getWordsFromString(input));  //O(log n)
         return uniqueWordsTree;
     }
