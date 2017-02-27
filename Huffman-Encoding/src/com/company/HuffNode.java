@@ -3,19 +3,27 @@ package com.company;
 /**
  * Created by Sander on 26/02/2017.
  */
-public class CharInString implements Comparable{
+public class HuffNode {
 
     private Character c;
     private int frequency;
+    private HuffNode myLeft, myRight, parent;
 
-    public CharInString(Character c) {
+
+    public HuffNode(Character c) {
         this.c = c;
         frequency = 1;
     }
 
-    public CharInString(Character c, int frequency) {
+    public HuffNode(Character c, int frequency) {
         this.c = c;
         this.frequency = frequency;
+    }
+
+    public HuffNode(int frequency, HuffNode myLeft, HuffNode myRight){
+        this.frequency = frequency;
+        this.myLeft = myLeft;
+        this.myRight = myRight;
     }
 
     public void increaseFrequence(){
@@ -28,7 +36,7 @@ public class CharInString implements Comparable{
 
     @Override
     public String toString() {
-        return "CharInString{" +
+        return "HuffNode{" +
                 "c=" + c +
                 ", frequency=" + frequency +
                 '}';
@@ -38,8 +46,7 @@ public class CharInString implements Comparable{
         return frequency;
     }
 
-    @Override
-    public int compareTo(Object o) {
-
+    public void setParent(HuffNode parent) {
+        this.parent = parent;
     }
 }
