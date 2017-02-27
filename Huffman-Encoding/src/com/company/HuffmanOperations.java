@@ -57,8 +57,10 @@ public class HuffmanOperations {
         while(pq.size() > 1){
             HuffNode newLeft = pq.poll();
             HuffNode newRight = pq.poll();
+            /*
             System.out.println("Left:" + newLeft.getFrequency() + " right: " + newRight.getFrequency()
-             + " Parent: " +  (newLeft.getFrequency() + newRight.getFrequency())        );
+             + " Parent: " +  (newLeft.getFrequency() + newRight.getFrequency()));
+             */
             HuffNode newButton = new HuffNode(newLeft.getFrequency() + newRight.getFrequency(), newLeft, newRight);
             newLeft.setParent(newButton);
             newRight.setParent(newButton);
@@ -87,6 +89,7 @@ public class HuffmanOperations {
         }
         return sb.toString();
     }
+
 
     public static String DecodeData(HashMap<Character, String> codes, String encodedData){
         StringBuilder sb = new StringBuilder();

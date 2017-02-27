@@ -1,9 +1,11 @@
 package com.company;
 
+import java.io.Serializable;
+
 /**
  * Created by Sander on 26/02/2017.
  */
-public class HuffNode {
+public class HuffNode implements Serializable {
 
     private Character c;
     private int frequency;
