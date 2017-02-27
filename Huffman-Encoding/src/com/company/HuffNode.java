@@ -7,7 +7,7 @@ public class HuffNode {
 
     private Character c;
     private int frequency;
-    private HuffNode myLeft, myRight, parent;
+    private HuffNode childRight, childLeft, parent;
 
 
     public HuffNode(Character c) {
@@ -22,8 +22,8 @@ public class HuffNode {
 
     public HuffNode(int frequency, HuffNode myLeft, HuffNode myRight){
         this.frequency = frequency;
-        this.myLeft = myLeft;
-        this.myRight = myRight;
+        this.childLeft = myLeft;
+        this.childRight = myRight;
     }
 
     public void increaseFrequence(){
@@ -48,5 +48,26 @@ public class HuffNode {
 
     public void setParent(HuffNode parent) {
         this.parent = parent;
+    }
+
+    public HuffNode getChildRight() {
+        return childRight;
+    }
+
+    public HuffNode getChildLeft() {
+        return childLeft;
+    }
+
+    public HuffNode getParent() {
+        return parent;
+    }
+
+    public boolean isLeaf(){
+        if(getChildLeft() == null && getChildRight() == null){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
