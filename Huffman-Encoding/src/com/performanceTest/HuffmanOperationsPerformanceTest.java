@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Sander on 27/02/2017.
  */
-public class HuffmanOperationsTest {
+public class HuffmanOperationsPerformanceTest {
 
     private static String[] testWords;
     private static String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
@@ -51,9 +51,7 @@ public class HuffmanOperationsTest {
 
     @org.junit.Test
     public void createTree() throws Exception {
-
         PriorityQueue pq = HuffmanOperations.SortByFrequence(HuffmanOperations.Frequence(testWords[1]));
-
         startTime = System.nanoTime();
         HuffNode h = HuffmanOperations.CreateTree(pq);
         endTime = System.nanoTime();
