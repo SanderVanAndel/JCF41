@@ -29,7 +29,7 @@ public class HuffmanManagerTest {
         PriorityQueue pq = HuffmanOperations.SortByFrequence(ll);
         root = HuffmanOperations.CreateTree(pq);
         HashMap<Character, String> codes = new HashMap<>();
-        HuffmanOperations.BuildCode(codes ,root ,"");
+        //HuffmanOperations.BuildCode(codes ,root ,"");
         codedMessage = HuffmanOperations.CompressData(codes, testString);
 
         huffmanManager = new HuffmanManager(testString);
@@ -49,7 +49,6 @@ public class HuffmanManagerTest {
 
     @Test
     public void saveCodeToFile() throws Exception {
-        //BitSet b = crea
         huffmanManager.saveCodeToFile(codedMessage);
     }
 

@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Sander on 22/03/2017.
  */

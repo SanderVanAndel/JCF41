@@ -1,10 +1,7 @@
 package com.company;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * Created by Sander on 26/02/2017.
@@ -26,7 +23,6 @@ public class HuffmanManager {
         fos = new FileOutputStream("Tree.ser");
         oos = new ObjectOutputStream(fos);
         oos.writeObject(root);
-        System.out.println("Done");
     }
 
     public HuffNode loadTreeFromFile() throws IOException, ClassNotFoundException {
@@ -47,6 +43,13 @@ public class HuffmanManager {
 
     public void saveCodeToFile(String encodedString) throws FileNotFoundException {
         System.out.println("Saving encoded message in encodedMessage.txt");
+        BitSet b;
+
+        for (int i = 0; i < encodedString.length(); i++){
+            char c = encodedString.charAt(i);
+            int bit = c;
+        }
+
         FileOutputStream fos = new FileOutputStream("encodedMessage.txt");
         PrintWriter out = new PrintWriter(fos);
         out.println(encodedString);
