@@ -111,7 +111,7 @@ public class HuffmanOperations {
 
     /**
      * Creates a single code from all the characters in the hashmap
-     *
+     * <p>
      * Complexity: O(n) where n is the length of the string
      *
      * @param codes input codes with character and code
@@ -130,9 +130,8 @@ public class HuffmanOperations {
     /**
      * Recreate the input sentence from the code and the root node
      * iterate through the code to find all the letters
-     *
-     * Complexity: O(n^2) when the code is bigger, the HuffNode tree is also bigger
-     * So when n is bigger it has to go more times through a bigger tree
+     * <p>
+     * Complexity: O(n)
      *
      * @param code the encoded string
      * @param root the root node of the huffman tree
@@ -141,13 +140,11 @@ public class HuffmanOperations {
     public static String DecodeDataFromNode(String code, HuffNode root) {
         StringBuilder sb = new StringBuilder();
         HuffNode base = root;
-        while (!code.isEmpty()) {  //O(n)
-            if (code.charAt(0) == '1') {
+        for (int i = 0; i < code.length(); i++) {  //O(n)
+            if (code.charAt(i) == '1') {
                 base = base.getChildRight();
-                code = code.substring(1);
-            } else if (code.charAt(0) == '0') {
+            } else if (code.charAt(i) == '0') {
                 base = base.getChildLeft();
-                code = code.substring(1);
             }
             if (base.isLeaf()) {
                 sb.append(base.getCharacter());

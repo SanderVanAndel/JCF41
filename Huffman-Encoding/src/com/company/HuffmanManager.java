@@ -25,7 +25,7 @@ public class HuffmanManager {
         oos.writeObject(root);
     }
 
-    public HuffNode loadTreeFromFile() throws IOException, ClassNotFoundException {
+    public    HuffNode loadTreeFromFile() throws IOException, ClassNotFoundException {
         fis = new FileInputStream("Tree.ser");
         ois = new ObjectInputStream(fis);
         loadedTree = (HuffNode) ois.readObject();
