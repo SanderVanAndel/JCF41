@@ -29,32 +29,20 @@ public class HuffmanManagerTest {
         PriorityQueue pq = HuffmanOperations.SortByFrequence(ll);
         root = HuffmanOperations.CreateTree(pq);
         HashMap<Character, String> codes = new HashMap<>();
-        //HuffmanOperations.BuildCode(codes ,root ,"");
+        HuffmanOperations.BuildCode(codes ,root ,"");
         codedMessage = HuffmanOperations.CompressData(codes, testString);
+        huffmanManager = new HuffmanManager();
+    }
 
-        huffmanManager = new HuffmanManager(testString);
+
+    @Test
+    public void save() throws Exception {
+        huffmanManager.save(codedMessage, root);
     }
 
     @Test
-    public void saveTreeToFile() throws Exception {
-        huffmanManager.saveTreeToFile(root);
-    }
-
-    @Test
-    public void loadTreeFromFile() throws Exception {
-        HuffNode loadedTree = huffmanManager.loadTreeFromFile();
-        assertEquals(root.getCharacter(), loadedTree.getCharacter());
-        assertEquals(root.getFrequency(), loadedTree.getFrequency());
-    }
-
-    @Test
-    public void saveCodeToFile() throws Exception {
-        huffmanManager.saveCodeToFile(codedMessage);
-    }
-
-    @Test
-    public void loadCodeFromFile() throws Exception {
-        String loadedCode = huffmanManager.loadCodeFromFile();
-        assertEquals(codedMessage, loadedCode);
+    public void load() throws Exception {
+        huffmanManager.load();
+        assertEquals(codedMessage, huffmanManager.getLoadedCode());
     }
 }

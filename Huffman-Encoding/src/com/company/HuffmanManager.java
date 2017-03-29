@@ -8,82 +8,68 @@ import java.util.*;
  */
 public class HuffmanManager {
     private String input;
-    private FileOutputStream fos;
-    private ObjectOutputStream oos;
-    private FileInputStream fis;
-    private ObjectInputStream ois;
     private HuffNode loadedTree;
+    private BitSet loadedSet;
+    private String loadedCode;
 
-    public HuffmanManager(String input) {
-        this.input = input;
-    }
-
-    public void saveTreeToFile(HuffNode root) throws IOException {
-        System.out.println("Saving huffman tree in file Tree.ser");
-        fos = new FileOutputStream("Tree.ser");
-        oos = new ObjectOutputStream(fos);
-        oos.writeObject(root);
-    }
-
-    public    HuffNode loadTreeFromFile() throws IOException, ClassNotFoundException {
-        fis = new FileInputStream("Tree.ser");
-        ois = new ObjectInputStream(fis);
+    /**
+     * loads the root node and the encoded message from the file
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public void load() throws IOException, ClassNotFoundException {
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("huffman-compressed-file"));
+        loadedSet = (BitSet) ois.readObject();
         loadedTree = (HuffNode) ois.readObject();
-        ois.close();
-        fis.close();
-        return loadedTree;
+        int length = ois.readInt();
+
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < length; i++){
+            if(loadedSet.get(i)){
+                sb.append("1");
+            }
+            else{
+                sb.append("0");
+            }
+        }
+        loadedCode = sb.toString();
+        System.out.println("Done loading file");
     }
 
-    public String loadCodeFromFile() throws IOException {
-        FileReader fr = new FileReader("encodedMessage.txt");
-        BufferedReader textReader = new BufferedReader(fr);
-        String s = textReader.readLine();
-        return s;
-    }
-
-    public void saveCodeToFile(String encodedString) throws FileNotFoundException {
-        System.out.println("Saving encoded message in encodedMessage.txt");
-        BitSet b;
-
+    /**
+     * save the encoded string and the huffman tree to a file
+     *
+     * @param encodedString the string of '1' and '0'
+     * @param root root node of the huffman tree
+     * @throws FileNotFoundException
+     */
+    public void save(String encodedString, HuffNode root) throws FileNotFoundException {
+        BitSet b = new BitSet();
         for (int i = 0; i < encodedString.length(); i++){
-            char c = encodedString.charAt(i);
-            int bit = c;
+            Character c = encodedString.charAt(i);
+            boolean value = false;
+            switch (c){
+                case '1': value = true;
+                    break;
+                case '0': value = false;
+                    break;
+            }
+            b.set(i, value);
         }
-
-        FileOutputStream fos = new FileOutputStream("encodedMessage.txt");
-        PrintWriter out = new PrintWriter(fos);
-        out.println(encodedString);
-        out.flush();
-        System.out.println("Done");
-    }
-
-    public void testFunctionality(){
-        LinkedList ll = HuffmanOperations.Frequence(input);
-
-        for(Object a : ll){
-            System.out.println(a.toString());
-        }
-        System.out.println("");
-
-        PriorityQueue pq = HuffmanOperations.SortByFrequence(ll);
-
-        HuffNode root = HuffmanOperations.CreateTree(pq);
-        HashMap<Character, String> codes = new HashMap<>();
-        HuffmanOperations.BuildCode(codes ,root ,"");
-        String encodedData = HuffmanOperations.CompressData(codes, input);
-
-        String decoded =  HuffmanOperations.DecodeDataFromNode(encodedData, root);
-        System.out.println(decoded);
 
         try {
-            saveTreeToFile(root);
-            saveCodeToFile(encodedData);
-            loadTreeFromFile();
-            loadCodeFromFile();
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("huffman-compressed-file"));
+            oos.writeObject(b);
+            oos.writeObject(root);
+            oos.writeInt(encodedString.length());
+            oos.close();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
+        System.out.println("Done saving file");
+    }
+
+    public String getLoadedCode() {
+        return loadedCode;
     }
 }
