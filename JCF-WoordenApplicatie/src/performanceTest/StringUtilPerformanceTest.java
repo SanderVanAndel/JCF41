@@ -5,6 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import woordenapplicatie.StringUtil;
 
+import java.util.Queue;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -166,6 +167,21 @@ public class StringUtilPerformanceTest {
         }
         return amount;
     }
+
+    /*
+    @Test
+    public void getWordsFromString() throws Exception{
+        for (int i = 0; i < 8; i++) {
+            startTime = System.nanoTime();
+            StringUtil.getWordsFromString(testWords[i]);
+            endTime = System.nanoTime();
+            duration = (endTime - startTime) / 1000000;  // milliseconds.
+            System.out.println("Method 'getWordsFromString' with " + getAmountString(i) + " words: " + duration + " milliseconds");
+        }
+
+
+    }
+    */
 
 
 }

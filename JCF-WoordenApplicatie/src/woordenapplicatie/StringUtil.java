@@ -15,20 +15,21 @@ public class StringUtil {
      * Find the amount of unique words input the string
      * to keep track of the unique words I use a HashSet
      * in a HashSet duplicate entries are not allowed and the order does not matter
-     * Also the collections doesn't have to be sorted
+     * Also the collection doesn't have to be sorted
      *
      * Complexity: for loop O(n) + getWordsFromString O(n) = O(2n) = O(n)
+     *
      *
      * @param input text from the input field
      * @return int array where [0] = the amount of words
      * and [1] = the amount of unique words
      */
     public int[] amount(String input){
-        HashSet<String> uniqueWordsHash;
+        HashSet<String> uniqueWordsHash = new HashSet<>();
         int amountOfWords = 0;
-        uniqueWordsHash = new HashSet<>();
+
         for(String s : getWordsFromString(input)){  //O(n)+ O(n) (getWordsFromString)
-                uniqueWordsHash.add(s);
+                uniqueWordsHash.add(s); //O(1)
                 amountOfWords++;
         }
         return new int[] {amountOfWords, uniqueWordsHash.size()};
@@ -37,31 +38,31 @@ public class StringUtil {
     /**
      * Orders the unique words in reverse alphabetical order
      *
-     *
+     * Complexity: O(log n) + O(n)  = O(n*log n)
      *
      * @param input text from the input field
      * @return string for the output textarea
      */
     public TreeSet sort(String input){
         TreeSet<String> uniqueWordsTree;
-        uniqueWordsTree = new TreeSet<>(Comparator.reverseOrder()); //O
-        uniqueWordsTree.addAll(getWordsFromString(input));  //O(log n)
+        uniqueWordsTree = new TreeSet<>(Comparator.reverseOrder());
+        uniqueWordsTree.addAll(getWordsFromString(input));  //O(log n) addAll //O(n) (getWordsFromString)
         return uniqueWordsTree;
     }
 
     /**
      * Method that makes a hashmap of words with a list of line numbers they appear in.
      *
-     * Complexity: O(n) + ?
+     * Complexity: O(n) + O(n^2) total O(n^2 + n)
      *
      * @param input text from the input field
      * @return string for the output textarea
      */
     public HashMap concordance(String input){
         HashMap<String, List<Integer>> uniqueWords = new HashMap<>() ;
-        for(String s : getWordsFromString(input)){  //O(n)
+        for(String s : getWordsFromString(input)){  //O(n) getWordsFromString
             List<Integer> lineNumbers = new LinkedList<>();
-            uniqueWords.put(s, lineNumbers);
+            uniqueWords.put(s, lineNumbers);    //O(1)
         }
         uniqueWords = addLineNumbers(uniqueWords, input);
         return uniqueWords;
@@ -73,28 +74,28 @@ public class StringUtil {
      * Loops per word through the words in the line (before \N)
      * adds the line number (lineIndex) to the list of line numbers if the word is in the line
      *
-     * Complexity: 2x regex string split O(2n) + 2 for loops O(n^2)
+     * Complexity: 2x regex string split O(2n) + 2 for loops n^2
      *
      * @param uniqueWords HashMap<String, List<Integer>>
      * @param input raw input
      * @return List of the words with the line index added to the List<Integer>
      */
     public HashMap<String, List<Integer>> addLineNumbers(HashMap<String, List<Integer>> uniqueWords, String input){
-            String[] arrayInput = input.split("[.\\n]");    //O(N)
-            int lineIndex = 1;
-            for(String line: arrayInput){
-                String[] wordsInLine = line.split("[,\\s]");    //O(N)
-                for(String s : wordsInLine){
-                    if(!s.isEmpty()){
-                        List<Integer> numbers = uniqueWords.get(s);
-                        if(!numbers.contains(lineIndex)){
-                            numbers.add(lineIndex);
-                        }
-                        uniqueWords.put(s , numbers);
+        String[] arrayInput = input.split("[.\\n]");    //O(N)
+        int lineIndex = 1;
+        for(String line: arrayInput){
+            String[] wordsInLine = line.split("[,\\s]");    //O(N)
+            for(String s : wordsInLine){
+                if(!s.isEmpty()){
+                    List<Integer> numbers = uniqueWords.get(s); //O(1)
+                    if(!numbers.contains(lineIndex)){
+                        numbers.add(lineIndex); //O(1)
                     }
+                    uniqueWords.put(s , numbers);
                 }
-                lineIndex++;
             }
+            lineIndex++;
+        }
         return uniqueWords;
     }
 
@@ -186,7 +187,7 @@ public class StringUtil {
      * @param input
      * @return
      */
-    private static Queue<String> getWordsFromString(String input){
+    public static Queue<String> getWordsFromString(String input){
         Queue<String> words = new LinkedList<>();
         String[] arrayInput = input.split("[,.\\s\\n]");    //O(N)
         for(String s : arrayInput){
